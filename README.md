@@ -1,4 +1,5 @@
 # Transformer Model Interface
+![Screenshot 2024-10-04 at 3 03 18 PM](https://github.com/user-attachments/assets/43f9f93a-b34c-46e6-a4f3-c2f241e33d68)
 
 This repository contains the code for a web-based Transformer model interface, designed to visualize attention maps and test predictions using Flask and PyTorch.
 
