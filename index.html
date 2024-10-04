@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Transformer Model Interface</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+      body {
+        margin-top: 50px;
+      }
+      .progress {
+        height: 30px;
+      }
+      .training-log {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="text-center">
+        <h1>Transformer Model Interface</h1>
+        <p>{{ dataset_info }}</p>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Training Panel</h2>
+          <form method="post">
+            {% if not model_trained and not training_started %}
+              <button type="submit" name="train" class="btn btn-success btn-block">Start Training</button>
+            {% elif training_started and not model_trained %}
+              <button class="btn btn-secondary btn-block" disabled>Training in Progress...</button>
+            {% else %}
+              <button class="btn btn-success btn-block" disabled>Model Trained</button>
+            {% endif %}
+          </form>
+          {% if training_started and not model_trained %}
+            <div class="progress mt-3">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+            </div>
+          {% endif %}
+          <hr>
+          <h3>Training Progress:</h3>
+          <div class="training-log border p-2">
+            <ul class="list-unstyled">
+              {% for log in training_progress %}
+                <li>{{ log }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h2>Testing Panel</h2>
+          <form method="post">
+            <div class="form-group">
+              <textarea name="input_text" class="form-control" rows="5" placeholder="Enter input text here..." {% if not model_trained %}disabled{% endif %}></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" {% if not model_trained %}disabled{% endif %}>Get Prediction</button>
+          </form>
+          {% if error %}
+            <div class="alert alert-danger mt-3">{{ error }}</div>
+          {% endif %}
+          {% if input_text %}
+            <hr>
+            <h3>Input Text:</h3>
+            <p>{{ input_text }}</p>
+            <h3>Predicted Text:</h3>
+            <p>{{ predicted_text }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
